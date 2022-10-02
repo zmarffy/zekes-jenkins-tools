@@ -1,4 +1,4 @@
-def call(Map map=[:], String message) {
+void call(Map map=[:], String message) {
     def defaultParams = [
         'ifttt': false,
         'iftttKeyCredsId': getConfigValue('ifttt_creds_id', defaultValue: 'ifttt-key'),

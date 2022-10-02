@@ -1,4 +1,4 @@
-def call(Map variables, Closure steps) {
+void call(Map variables, Closure steps) {
     def withEnvParam = []
     variables.each { k, v ->
         if ('=' in k) {
