@@ -1,6 +1,7 @@
 @Grab(group='com.squareup.okhttp3', module='okhttp', version='4.10.0')
 
 import okhttp3.OkHttpClient
+import okhttp3.Credentials
 import okhttp3.HttpUrl
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -17,7 +18,8 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         'headers': [:],
         'json': null,
         'data': null,
-        'files': [:]
+        'files': [:],
+        'basicAuth': null
     ]
     functionParams = getFunctionParamsOrDefaults(defaultParams, map)
 
@@ -55,6 +57,10 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
 
     defaultParams['headers'].each { k, v ->
         httpBuilder.addHeader(k, v)
+    }
+
+    if (functionParams['basicAuth'] != null) {
+        httpBuilder.addHeader("Authorization", Credentials.basic(functionParams['basicAuth'][0], functionParams['basicAuth'][1]))
     }
 
     def request = new Request.Builder().url(url)
