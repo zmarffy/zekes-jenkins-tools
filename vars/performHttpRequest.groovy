@@ -72,5 +72,11 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         request."${functionParams['method']}"()
     }
 
-    return client.newCall(request.build()).execute()
+    def out = client.newCall(request.build()).execute()
+
+    return [
+        'code': out.code(),
+        'body': body.body(),
+        'headers': body.headers()
+    ]
 }
