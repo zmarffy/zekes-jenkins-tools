@@ -20,10 +20,10 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         'files': [:],
         'basicAuth': null
     ]
-    functionParams = getFunctionParamsOrDefaults(defaultParams, map)
+    def functionParams = getFunctionParamsOrDefaults(defaultParams, map)
 
     functionParams['method'] = functionParams['method'].toLowerCase()
-    client = client ?: new OkHttpClient()
+    def client = client ?: new OkHttpClient()
 
     def body = null
 
@@ -71,15 +71,11 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         request."${functionParams['method']}"()
     }
 
-    def response = client.newCall(request.build()).execute()
+    def out = client.newCall(request.build()).execute()
 
-    def out = [
+    return [
         'code': out.code(),
         'body': out.body().string(),
         'headers': out.headers().toMultiMap()
     ]
-
-    response = null
-
-    return out
 }
