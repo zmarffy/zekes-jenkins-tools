@@ -19,6 +19,7 @@ def call(Map map=[:], String url) {
     }
 
     map['url'] = constructedUrl
+    map['quiet'] = true
 
     return httpRequest(map)
 }
