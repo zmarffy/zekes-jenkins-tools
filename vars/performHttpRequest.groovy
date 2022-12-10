@@ -79,13 +79,13 @@ def call(Map map=[:], String url) {
 
     def response = client.newCall(request.build()).execute()
 
+    client = null
+
     def out = [
         'code': response.code(),
         'body': response.body().string(),
         'headers': response.headers().toMultiMap()
     ]
-
-    println(out)
 
     return out
 }
