@@ -76,6 +76,6 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
     return [
         'code': out.code(),
         'body': out.body().string(),
-        'headers': out.headers()
+        'headers': out.headers().toMultiMap()
     ]
 }
