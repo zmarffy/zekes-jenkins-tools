@@ -10,7 +10,6 @@ import okhttp3.MediaType
 import okhttp3.FormBody
 import java.net.URLConnection
 
-@NonCPS
 def call(Map map=[:], String url, OkHttpClient client = null) {
     def defaultParams = [
         'method': 'get',
@@ -60,7 +59,8 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
     }
 
     if (functionParams['basicAuth'] != null) {
-        httpBuilder.addHeader("Authorization", Credentials.basic(functionParams['basicAuth'][0], functionParams['basicAuth'][1]))
+        httpBuilder.addHeader('Yep', 'Nope')
+        httpBuilder.addHeader('Authorization', Credentials.basic(functionParams['basicAuth'][0], functionParams['basicAuth'][1]))
     }
 
     def request = new Request.Builder().url(url)
