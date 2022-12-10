@@ -10,7 +10,6 @@ import okhttp3.MediaType
 import okhttp3.FormBody
 import java.net.URLConnection
 
-@NonCPS
 def call(Map map=[:], String url, OkHttpClient client = null) {
     def defaultParams = [
         'method': 'get',
