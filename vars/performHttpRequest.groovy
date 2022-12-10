@@ -27,10 +27,7 @@ def call(Map map=[:], String url) {
 
     def client
     if (functionParams['client'] == null) {
-        client = client ?: new OkHttpClient()
-    }
-    else {
-        client = client
+        client = new OkHttpClient()
     }
 
     def body = null
