@@ -72,11 +72,15 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         request."${functionParams['method']}"()
     }
 
-    def out = client.newCall(request.build()).execute()
+    def response = client.newCall(request.build()).execute()
 
-    return [
+    def out = [
         'code': out.code(),
         'body': out.body().string(),
         'headers': out.headers().toMultiMap()
     ]
+
+    response = null
+
+    return out
 }
