@@ -10,7 +10,7 @@ import okhttp3.MediaType
 import okhttp3.FormBody
 import java.net.URLConnection
 
-def call(Map map=[:], String url, OkHttpClient client = null) {
+def call(Map map=[:], String url) {
     def defaultParams = [
         'method': 'get',
         'queryParams': [:],
@@ -18,12 +18,20 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         'json': null,
         'data': null,
         'files': [:],
-        'basicAuth': null
+        'basicAuth': null,
+        'client': null
     ]
     def functionParams = getFunctionParamsOrDefaults(defaultParams, map)
 
     functionParams['method'] = functionParams['method'].toLowerCase()
-    def client = client ?: new OkHttpClient()
+
+    def client
+    if (functionParams['client'] == null) {
+        client = client ?: new OkHttpClient()
+    }
+    else {
+        client = client
+    }
 
     def body = null
 
