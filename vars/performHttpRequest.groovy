@@ -20,5 +20,5 @@ def call(Map map=[:], String url) {
 
     map['url'] = constructedUrl
 
-    return httpRequest(map: map)
+    return httpRequest(map)
 }
