@@ -1,6 +1,7 @@
 @Grab(group='com.squareup.okhttp3', module='okhttp', version='4.10.0')
 
 import okhttp3.OkHttpClient
+import okhttp3.Credentials
 import okhttp3.HttpUrl
 import okhttp3.Request
 import okhttp3.RequestBody
@@ -9,7 +10,6 @@ import okhttp3.MediaType
 import okhttp3.FormBody
 import java.net.URLConnection
 
-@NonCPS
 def call(Map map=[:], String url, OkHttpClient client = null) {
     def defaultParams = [
         'method': 'get',
@@ -17,7 +17,8 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         'headers': [:],
         'json': null,
         'data': null,
-        'files': [:]
+        'files': [:],
+        'basicAuth': null
     ]
     functionParams = getFunctionParamsOrDefaults(defaultParams, map)
 
@@ -53,11 +54,15 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         httpBuilder.addQueryParameter(k, v)
     }
 
+    def request = new Request.Builder().url(url)
+
     defaultParams['headers'].each { k, v ->
-        httpBuilder.addHeader(k, v)
+        request.addHeader(k, v)
     }
 
-    def request = new Request.Builder().url(url)
+    if (functionParams['basicAuth'] != null) {
+        request.addHeader('Authorization', Credentials.basic(functionParams['basicAuth'][0], functionParams['basicAuth'][1]))
+    }
 
     if (body != null) {
         request."${functionParams['method']}"(body)
@@ -66,5 +71,11 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         request."${functionParams['method']}"()
     }
 
-    return client.newCall(request.build()).execute()
+    def out = client.newCall(request.build()).execute()
+
+    return [
+        'code': out.code(),
+        'body': out.body().string(),
+        'headers': out.headers()
+    ]
 }
