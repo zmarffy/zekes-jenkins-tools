@@ -54,16 +54,15 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
         httpBuilder.addQueryParameter(k, v)
     }
 
+    def request = new Request.Builder().url(url)
+
     defaultParams['headers'].each { k, v ->
-        httpBuilder.addHeader(k, v)
+        request.addHeader(k, v)
     }
 
     if (functionParams['basicAuth'] != null) {
-        httpBuilder.addHeader('Yep', 'Nope')
-        httpBuilder.addHeader('Authorization', Credentials.basic(functionParams['basicAuth'][0], functionParams['basicAuth'][1]))
+        request.addHeader('Authorization', Credentials.basic(functionParams['basicAuth'][0], functionParams['basicAuth'][1]))
     }
-
-    def request = new Request.Builder().url(url)
 
     if (body != null) {
         request."${functionParams['method']}"(body)
