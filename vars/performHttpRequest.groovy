@@ -10,6 +10,7 @@ import okhttp3.MediaType
 import okhttp3.FormBody
 import java.net.URLConnection
 
+@NonCPS
 def call(Map map=[:], String url) {
     def defaultParams = [
         'method': 'get',
@@ -76,13 +77,15 @@ def call(Map map=[:], String url) {
         request."${functionParams['method']}"()
     }
 
-    def out = client.newCall(request.build()).execute()
+    def response = client.newCall(request.build()).execute()
 
-    client = null
-
-    return [
-        'code': out.code(),
-        'body': out.body().string(),
-        'headers': out.headers().toMultiMap()
+    def out = [
+        'code': response.code(),
+        'body': response.body().string(),
+        'headers': response.headers().toMultiMap()
     ]
+
+    println(out)
+
+    return out
 }
