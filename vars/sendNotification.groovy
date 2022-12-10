@@ -15,7 +15,17 @@ void call(Map map=[:], String message) {
                 )
             ]
         ) {
-            performHttpRequest("https://maker.ifttt.com/trigger/${functionParams['iftttKeyName']}/with/key/$IFTTT_KEY", method: 'POST', json: ['value1': message])
+            performHttpRequest(
+                "https://maker.ifttt.com/trigger/${functionParams['iftttKeyName']}/with/key/$IFTTT_KEY",
+                httpMode: 'POST',
+                contentType: 'APPLICATION_JSON',
+                requestBody: writeJSON(
+                    json: [
+                        'value1': message
+                    ],
+                    returnText: true
+                )
+            )
         }
     }
 }
