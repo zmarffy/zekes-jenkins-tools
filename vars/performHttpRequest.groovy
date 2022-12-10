@@ -9,8 +9,8 @@ def call(Map map=[:], String url) {
     queryParams = functionParams['queryParams']
     headers = functionParams['headers']
 
-    functionParams.remove('queryParams')
-    functionParams.remove('headers')
+    map.remove('queryParams')
+    map.remove('headers')
 
     def constructedUrl = url
     if (queryParams) {
