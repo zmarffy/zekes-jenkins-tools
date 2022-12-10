@@ -24,8 +24,10 @@ def call(Map map=[:], String url) {
     }
 
     map['url'] = constructedUrl
-    map['quiet'] = true
+    map['quiet'] = false
     map['customHeaders'] = headers.collect { ['name': it[0], 'value': it[1]] }
+
+    println map['customHeaders']
 
     return httpRequest(map)
 }
