@@ -78,6 +78,8 @@ def call(Map map=[:], String url) {
 
     def out = client.newCall(request.build()).execute()
 
+    client = null
+
     return [
         'code': out.code(),
         'body': out.body().string(),
