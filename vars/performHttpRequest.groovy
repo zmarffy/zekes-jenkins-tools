@@ -75,7 +75,7 @@ def call(Map map=[:], String url, OkHttpClient client = null) {
 
     return [
         'code': out.code(),
-        'body': body.body(),
-        'headers': body.headers()
+        'body': out.body(),
+        'headers': out.headers()
     ]
 }
