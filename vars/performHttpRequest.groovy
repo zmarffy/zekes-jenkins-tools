@@ -1,6 +1,7 @@
 def call(Map map=[:], String url) {
     def defaultParams = [
         'queryParams': [],
+        'headers': []
     ]
 
     def functionParams = getFunctionParamsOrDefaults(defaultParams, map)
@@ -20,6 +21,7 @@ def call(Map map=[:], String url) {
 
     map['url'] = constructedUrl
     map['quiet'] = true
+    map['customHeaders'] = functionParams['headers'].collect { ['name': it[0], 'value': it[1]] }
 
     return httpRequest(map)
 }
